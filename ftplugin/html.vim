@@ -74,6 +74,9 @@ fu! s:HighlightTagAtPosition(position)
     endif
 
     let [m_lnum, m_col] = a:position
-    exe '2match MatchParen /\%' . m_lnum . 'l\%' . m_col .  'c<\zs.\{-}\ze>/'
+    exe '2match MatchParen /\(\%' . m_lnum . 'l\%' . m_col .  'c<\zs.\{-}\ze[ >]\)\|'
+                \ .'\(\%' . line('.') . 'l\%' . col('.') .  'c<\zs.\{-}\ze[ >]\)\|'
+                \ .'\(\%' . line('.') . 'l<\zs[^<> ]*\%' . col('.') . 'c.\{-}\ze[ >]\)\|'
+                \ .'\(\%' . line('.') . 'l<\zs[^<>]\{-}\ze\s[^<>]*\%' . col('.') . 'c.\{-}>\)/'
     let w:tag_hl_on = 1
 endfu
